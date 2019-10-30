@@ -24,7 +24,36 @@ function availableItems() {
     connection.query(query, function(err, res) {
         if (err) throw err;
         console.log(res);
+        questionPrompt()
         connection.end();
       });
 
+}
+
+function questionPrompt(){
+    inquirer
+    .prompt([
+      {
+        type: "number",
+        message: "What is the ID of the product you would like to buy?",
+        name: "productID"
+      },
+      {
+        type: "number",
+        message: "How many units of the product would you like to buy?",
+        name: "productUnits"
+      },
+
+    ])
+    .then(function(inquirerResponse) {
+
+    console.log("Your Prouduct ID" + inquirerResponse.productID);
+    console.log("How Many you would like to purchase" + inquirerResponse.productUnits);
+    //   if (inquirerResponse.postOrBid == "Post An Item") {
+    //       console.log("Your " + inquirerResponse.postOrBid);
+    //   } else {
+    //       console.log("Your " + inquirerResponse.postOrBid);
+    //   }    
+       
+    });
 }
