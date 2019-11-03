@@ -43,7 +43,14 @@ function questionPrompt() {
 		var myQuery = "SELECT item_id, product_name, stock_quantity, price FROM products WHERE ?"
 		connection.query(myQuery, { item_id: inquirerResponse.productID }, function(err, results) {
 			if (err) throw err;
-			console.log(results);
+			if (inquirerResponse.productUnits < results[0].stock_quantity ) {
+				var productsLeft = results[0].stock_quantity - inquirerResponse.productUnits;
+				console.log(productsLeft);
+			} else {
+				console.log("Insufficient quantity!");
+			}
+
+			console.log(results[0].stock_quantity);
 		})
 	})
 }
