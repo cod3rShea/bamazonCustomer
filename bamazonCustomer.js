@@ -41,16 +41,18 @@ function questionPrompt() {
 		},
 	]).then(function (inquirerResponse) {
 		var myQuery = "SELECT item_id, product_name, stock_quantity, price FROM products WHERE ?"
-		connection.query(myQuery, { item_id: inquirerResponse.productID }, function(err, results) {
+		connection.query(myQuery, { item_id: inquirerResponse.productID }, function (err, results) {
 			if (err) throw err;
-			if (inquirerResponse.productUnits < results[0].stock_quantity ) {
+			if (inquirerResponse.productUnits < results[0].stock_quantity) {
 				var productsLeft = results[0].stock_quantity - inquirerResponse.productUnits;
-				console.log(productsLeft);
+				var costOfPurchase = inquirerResponse.productUnits * results[0].price;
+				connection.query(`UPDATE products SET stock_quantity=${productsLeft} WHERE item_id=${inquirerResponse.productID}`, function (error, results) {
+					if (err) throw err;
+					console.log("Your total is: $" + costOfPurchase);
+				});
 			} else {
 				console.log("Insufficient quantity!");
 			}
-
-			console.log(results[0].stock_quantity);
 		})
 	})
 }
