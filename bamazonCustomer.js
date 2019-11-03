@@ -49,6 +49,7 @@ function questionPrompt() {
 				connection.query(`UPDATE products SET stock_quantity=${productsLeft} WHERE item_id=${inquirerResponse.productID}`, function (error, results) {
 					if (err) throw err;
 					console.log("Your total is: $" + costOfPurchase);
+					availableItems();
 				});
 			} else {
 				console.log("Insufficient quantity!");
