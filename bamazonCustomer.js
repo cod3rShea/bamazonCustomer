@@ -49,11 +49,33 @@ function questionPrompt() {
 				connection.query(`UPDATE products SET stock_quantity=${productsLeft} WHERE item_id=${inquirerResponse.productID}`, function (error, results) {
 					if (err) throw err;
 					console.log("Your total is: $" + costOfPurchase);
-					availableItems();
+					startover();
 				});
 			} else {
 				console.log("Insufficient quantity!");
 			}
 		})
 	})
+}
+
+
+function startover() {
+	inquirer
+		.prompt({
+			name: "postOrBid",
+			type: "list",
+			message: "Would you like to continue shopping?",
+			choices: ["yes", "no"]
+		})
+		.then(function (answer) {
+			if (answer.postOrBid === "yes") {
+				availableItems();
+			}
+			else if (answer.postOrBid === "no") {
+				console.log('Thanks for shopping!');
+				connection.end();
+			} else {
+
+			}
+		});
 }
